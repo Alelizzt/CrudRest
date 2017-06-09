@@ -1,4 +1,4 @@
-package com.proyecto.crudrest.Model;
+package com.proyecto.crudrest.model;
 
 import java.util.Date;
 
@@ -22,8 +22,7 @@ public class Empleado {
 	
 	Empleado(){}
 
-	public Empleado(long id, String nombre, String apellidos, Date fechaNacimiento) {
-		this.id = id;
+	public Empleado(String nombre, String apellidos, Date fechaNacimiento) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;
