@@ -7,12 +7,18 @@ import java.util.Arrays;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.proyecto.crudrest.model.Empleado;
 import com.proyecto.crudrest.repo.EmpleadoRepository;
 
 @SpringBootApplication
+@ComponentScan(basePackages = { "com.proyecto.crudrest.controller"})
+@EntityScan("com.proyecto.crudrest.model")
+@EnableJpaRepositories("com.proyecto.crudrest.repo")
 public class CrudRestApplication {
 
 	public static void main(String[] args) {
