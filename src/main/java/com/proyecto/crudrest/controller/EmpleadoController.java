@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.crudrest.model.Empleado;
+import com.proyecto.crudrest.model.ErrorRest;
 import com.proyecto.crudrest.repo.EmpleadoRepository;
 
 @RestController
@@ -50,6 +51,7 @@ public class EmpleadoController {
 		return empleadoRepository.save(nuevo);
 	}*/
 	
+	/* Metodo no recomendable, trabaja con dos sistemas json y caracteres
 	@PostMapping("/empleado")
 	public ResponseEntity<?> createEmpleado(RequestEntity<Empleado> reqEmpleado){
 		Empleado empleado = reqEmpleado.getBody();
@@ -59,6 +61,24 @@ public class EmpleadoController {
 		}else{
 			return new ResponseEntity<Empleado>(empleadoRepository.save(empleado), HttpStatus.CREATED);
 		}
+	}*/
+	
+	
+	@PostMapping("/empleado")
+	public ResponseEntity<?> createEmpleado(RequestEntity<Empleado> reqEmpleado){
+		
+		if(reqEmpleado.getBody() == null){
+			return new ResponseEntity<ErrorRest>(new ErrorRest("Formato de petición incorrecto. Debe enviar los datos del empleado a dar de alta"), HttpStatus.BAD_REQUEST);
+		}
+		
+		Empleado empleado = reqEmpleado.getBody();
+		
+		if(empleadoRepository.findOne(empleado.getId()) != null){
+			return new ResponseEntity<ErrorRest>(new ErrorRest("El empleado con la id: "+empleado.getId()+" ya existe"), HttpStatus.CONFLICT);
+		} else{
+			return new ResponseEntity<Empleado>(empleadoRepository.save(empleado), HttpStatus.CREATED);
+		}
+			
 	}
 	
 	
