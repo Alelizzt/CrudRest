@@ -2,16 +2,15 @@ package com.proyecto.crudrest.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,12 +43,24 @@ public class EmpleadoController {
 			throw new EmpleadoNotFoundException(id);
 	}
 	
-	@PostMapping("/empleado")
+	/*@PostMapping("/empleado")
 	public Empleado createEmpleado(@RequestBody Empleado empleado, HttpServletResponse response){
 		Empleado nuevo = new Empleado(empleado.getNombre(), empleado.getApellidos(), empleado.getFechaNacimiento());
 		response.setStatus(201);
 		return empleadoRepository.save(nuevo);
-	}	
+	}*/
+	
+	@PostMapping("/empleado")
+	public ResponseEntity<?> createEmpleado(RequestEntity<Empleado> reqEmpleado){
+		Empleado empleado = reqEmpleado.getBody();
+		
+		if(empleadoRepository.findOne(empleado.getId())!= null){
+			return new ResponseEntity<String>("El empleado con el ID: "+ empleado.getId()+" ya existe", HttpStatus.CONFLICT);
+		}else{
+			return new ResponseEntity<Empleado>(empleadoRepository.save(empleado), HttpStatus.CREATED);
+		}
+	}
+	
 	
 	@PutMapping("/empleado/{id}")
 	public Empleado updateEmpleado(){
