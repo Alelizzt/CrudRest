@@ -22,8 +22,16 @@ public class Empleado {
 	
 	Empleado(){}
 
+	
+	public Empleado(long id, String nombre, String apellidos, Date fechaNacimiento) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+
 	public Empleado(String nombre, String apellidos, Date fechaNacimiento) {
-		
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.fechaNacimiento = fechaNacimiento;
