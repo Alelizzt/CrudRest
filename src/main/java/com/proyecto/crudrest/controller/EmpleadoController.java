@@ -82,6 +82,23 @@ public class EmpleadoController {
 	}
 	
 	
+	/*Formas distintas de actualizar empleado con y sin el id en el body*/
+	
+	@PutMapping("/empleado")
+	public ResponseEntity<?> updateEmpleado(RequestEntity<Empleado> reqEmpleado){
+		if(reqEmpleado.getBody() == null){
+			return new ResponseEntity<ErrorRest>(new ErrorRest("Formato de petición incorrecto"), HttpStatus.BAD_REQUEST);
+		}
+		Empleado empleado = reqEmpleado.getBody();
+		if(empleadoRepository.findOne(empleado.getId()) != null){
+			Empleado aActualizar = new Empleado(empleado.getId(),empleado.getNombre(),empleado.getApellidos(),empleado.getFechaNacimiento());
+			return new ResponseEntity<Empleado>(empleadoRepository.save(aActualizar), HttpStatus.OK);
+		} else{
+			Empleado nuevoEmpleado = new Empleado(empleado.getNombre(),empleado.getApellidos(),empleado.getFechaNacimiento());
+			return new ResponseEntity<Empleado>(empleadoRepository.save(nuevoEmpleado),HttpStatus.CREATED);
+		}
+	}
+	
 	@PutMapping("/empleado/{id}")
 	public ResponseEntity<?> updateEmpleado(@PathVariable Long id, RequestEntity<Empleado> reqEmpleado){
 		if(reqEmpleado.getBody() == null){
@@ -95,6 +112,7 @@ public class EmpleadoController {
 			return new ResponseEntity<ErrorRest>(new ErrorRest("El empleado a modificar no existe"), HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	
 	@DeleteMapping("/empleado/{id}")
 	public Empleado deleteEmpleado(){
