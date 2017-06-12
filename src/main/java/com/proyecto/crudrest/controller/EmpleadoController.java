@@ -115,8 +115,15 @@ public class EmpleadoController {
 	
 	
 	@DeleteMapping("/empleado/{id}")
-	public Empleado deleteEmpleado(){
-		return null;
+	public ResponseEntity<?> deleteEmpleado(@PathVariable Long id){
+		Empleado aBorrar = empleadoRepository.findOne(id);
+		
+		if(aBorrar != null){
+			empleadoRepository.delete(aBorrar);
+			return new ResponseEntity<Empleado>(aBorrar, HttpStatus.OK);
+		} else{
+			return new ResponseEntity<ErrorRest>(new ErrorRest("El empleado a borrar no existe"), HttpStatus.NOT_FOUND);
+		}
 	}
 	
 	
