@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.proyecto.crudrest.model.ErrorRest;
 import com.proyecto.crudrest.repo.EmpleadoRepository;
 
 @RestController
+@CrossOrigin(origins ="http://localhost:8080", maxAge = 4800, allowCredentials = "false")
 @RequestMapping("/api")
 public class EmpleadoController {
 	
